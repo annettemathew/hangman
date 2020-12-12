@@ -16,16 +16,34 @@
 # * Please use functions to modularize the code.
 from random import randint
 word_list = ['vehicle', 'carrot', 'school', 'puppy', 'chicken']
+char_list = []
 incorrect_guess_count = 0
+
+def display_word(index):
+    win = True
+    for i in range(0, len(word_list[index])): #for each character in word
+           if(word_list[index][i] in char_list):
+               print(word_list[index][i], ' ', end = '')
+           else:
+               print('_ ', end = '')
+               win = False
+    if(win == True):
+        print('')
+        print("Game over. You won.")
+        exit(0)
 def check_guess(guess_char, index):
     # check word_list[index] & check whether guess_char is in it
     # if so, reveal those places & return true
     # if not, increment incorrect guess count & return false
     print("In check_guess()")
+    if(guess_char in word_list[index]):
+        char_list.append(guess)
+        return True
+    else:
+        return False
 print("Hi! Welcome to Hangman!")
 rand_int = randint(0, len(word_list) - 1)
-print(rand_int)
-print(word_list[rand_int])
+
 for i in range(0, len(word_list[rand_int])):
     print('_ ', end='')
 for x in range(0, 10):
@@ -33,4 +51,5 @@ for x in range(0, 10):
     guess = input("Please enter a letter to guess: ")
     if(guess.isalpha() != True):
         print("That guess is not applicable.")
-    check_guess()
+    check_guess(guess, rand_int)
+    display_word(rand_int)
