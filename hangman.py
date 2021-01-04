@@ -15,6 +15,8 @@
 # (2) the user has made ten incorrect guesses.
 # * Please use functions to modularize the code.
 from random import randint
+import signal
+import sys
 word_list = ['vehicle', 'carrot', 'school', 'puppy', 'chicken']
 char_list = []
 incorrect_guess_count = 0
@@ -35,12 +37,20 @@ def check_guess(guess_char, index):
     # check word_list[index] & check whether guess_char is in it
     # if so, reveal those places & return true
     # if not, increment incorrect guess count & return false
+    global incorrect_guess_count
     print("In check_guess()")
     if(guess_char in word_list[index]):
         char_list.append(guess)
+        print('')
+        print(word_list)
+        print('Number of wrong attempts: ', incorrect_guess_count)
         return True
     else:
+        incorrect_guess_count += 1
+        print('')
+        print('Number of wrong attempts: ', incorrect_guess_count)
         return False
+
 print("Hi! Welcome to Hangman!")
 rand_int = randint(0, len(word_list) - 1)
 
@@ -48,8 +58,10 @@ for i in range(0, len(word_list[rand_int])):
     print('_ ', end='')
 for x in range(0, 10):
     print('')
+
     guess = input("Please enter a letter to guess: ")
     if(guess.isalpha() != True):
         print("That guess is not applicable.")
+        exit(0)
     check_guess(guess, rand_int)
     display_word(rand_int)
